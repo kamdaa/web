@@ -1,12 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import ArtGrid from '../components/ArtGrid.astro';
+import RecentCarousel from '../components/RecentCarousel.astro';
 import Ornaments from '../components/Ornaments.astro';
 import { site } from '../config';
 import { getRecentArtworks } from '../lib/art';
 import { url } from '../lib/url';
 
-const recent = getRecentArtworks(6);
+const recent = getRecentArtworks(9);
 ---
 
 <Base>
@@ -55,7 +55,7 @@ const recent = getRecentArtworks(6);
     </header>
 
     <div class="mt-10">
-      <ArtGrid artworks={recent} showCollection />
+      <RecentCarousel artworks={recent} />
     </div>
   </section>
 </Base>
