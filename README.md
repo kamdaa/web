@@ -6,7 +6,9 @@ for everything else.
 
 ## See your site (no technical steps)
 
-Double-click **`View Site.cmd`** in this folder.
+**Live site:** https://kamdaa.github.io/web/
+
+Double-click **`View Site.cmd`** in this folder to see it on your own computer.
 
 Your browser opens the site. A small black server window also opens, minimised — keep it
 open while you browse, and close it when you are finished. Nothing is sent anywhere; it
@@ -118,5 +120,7 @@ return all work without a dependency.
 
 ## Deploying
 
-The build output in `dist/` is fully static and can go on Netlify, Vercel, Cloudflare
-Pages, or GitHub Pages. Nothing else is needed.
+The site is published from the `main` branch with GitHub Actions. Every push rebuilds and
+deploys automatically to **https://kamdaa.github.io/web/**. The workflow lives in
+`.github/workflows/deploy.yml`; the output in `dist/` is still fully static if you ever want
+to host it elsewhere.

@@ -1,5 +1,6 @@
 ---
 import { nav, site } from '../config';
+import { url } from '../lib/url';
 
 interface Props {
   year: number;
@@ -28,7 +29,7 @@ const { year } = Astro.props;
             {
               nav.map((item) => (
                 <li>
-                  <a class="link-underline transition-colors hover:text-ink" href={item.href}>
+                  <a class="link-underline transition-colors hover:text-ink" href={url(item.href)}>
                     {item.label}
                   </a>
                 </li>

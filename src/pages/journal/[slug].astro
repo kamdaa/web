@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { formatDate } from '../../lib/format';
+import { url } from '../../lib/url';
 
 export async function getStaticPaths() {
   const posts = await getCollection('journal', ({ data }) => !data.draft);
@@ -24,7 +25,7 @@ const { Content } = await render(post);
 <Base title={post.data.title} description={post.data.excerpt}>
   <article class="container-page pt-12 md:pt-16">
     <a
-      href="/journal"
+      href={url('/journal')}
       class="link-quiet text-[0.66rem] uppercase tracking-[0.2em] transition-colors hover:text-ink"
     >
       <span aria-hidden="true">←</span>
@@ -49,7 +50,7 @@ const { Content } = await render(post);
       <div class="flex flex-wrap items-baseline justify-between gap-6">
         {
           previous ? (
-            <a href={`/journal/${previous.id}`} class="group max-w-[45%]">
+            <a href={url(`/journal/${previous.id}`)} class="group max-w-[45%]">
               <span class="eyebrow">Newer</span>
               <span class="mt-1 block font-serif text-lg leading-tight transition-colors group-hover:text-sage-deep">
                 {previous.data.title}
@@ -61,7 +62,7 @@ const { Content } = await render(post);
         }
         {
           next ? (
-            <a href={`/journal/${next.id}`} class="group max-w-[45%] text-right">
+            <a href={url(`/journal/${next.id}`)} class="group max-w-[45%] text-right">
               <span class="eyebrow">Older</span>
               <span class="mt-1 block font-serif text-lg leading-tight transition-colors group-hover:text-sage-deep">
                 {next.data.title}

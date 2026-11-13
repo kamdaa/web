@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import ArtGrid from '../../components/ArtGrid.astro';
 import { getCollectionBySlug, getCollections } from '../../lib/art';
+import { url } from '../../lib/url';
 
 export function getStaticPaths() {
   return getCollections().map((collection) => ({
@@ -28,7 +29,7 @@ if (!getCollectionBySlug(collection.slug)) {
 >
   <section class="container-page pt-12 md:pt-16">
     <a
-      href="/work"
+      href={url('/work')}
       class="link-quiet text-[0.66rem] uppercase tracking-[0.2em] transition-colors hover:text-ink"
     >
       <span aria-hidden="true">←</span>
@@ -58,7 +59,7 @@ if (!getCollectionBySlug(collection.slug)) {
     <div class="flex flex-wrap items-baseline justify-between gap-4">
       {
         previous ? (
-          <a href={`/work/${previous.slug}`} class="group max-w-[45%]">
+          <a href={url(`/work/${previous.slug}`)} class="group max-w-[45%]">
             <span class="eyebrow">Previous</span>
             <span class="mt-1 block font-serif text-lg transition-colors group-hover:text-sage-deep">
               {previous.name}
@@ -70,7 +71,7 @@ if (!getCollectionBySlug(collection.slug)) {
       }
       {
         next ? (
-          <a href={`/work/${next.slug}`} class="group max-w-[45%] text-right">
+          <a href={url(`/work/${next.slug}`)} class="group max-w-[45%] text-right">
             <span class="eyebrow">Next</span>
             <span class="mt-1 block font-serif text-lg transition-colors group-hover:text-sage-deep">
               {next.name}
