@@ -1,35 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" role="img">
-
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0" stop-color="#f7ecdf"/>
-      <stop offset="1" stop-color="#ebdbc6"/>
-    </linearGradient>
-    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="52"/>
-    </filter>
-    <filter id="soft-sm" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="22"/>
-    </filter>
-    <filter id="grain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
-    </filter>
-  </defs>
-  <rect width="1200" height="1600" fill="url(#bg)"/>
-  <rect x="0" y="992" width="1200" height="608" fill="#e5ceb2" opacity="0.4"/>
-  <path d="M 288 1312
-           L 288 856
-           A 312 312 0 0 1 912 856
-           L 912 1312 Z"
-        fill="#8c9c74" opacity="0.68" filter="url(#soft-sm)"/>
-  <path d="M 288 1312
-           L 288 856
-           A 312 312 0 0 1 912 856
-           L 912 1312"
-        fill="none" stroke="#4f5f42" stroke-width="1.5" opacity="0.45"/>
-  <circle cx="840" cy="800" r="81.60000000000001" fill="#c98459" opacity="0.9"/>
-  <line x1="120" y1="1440" x2="1080" y2="1440" stroke="#4f5f42" stroke-width="1.2" opacity="0.35"/>
-  <rect x="156" y="208" width="108" height="108" fill="#c98459" opacity="0.35"/>
-  <rect width="1200" height="1600" filter="url(#grain)" opacity="0.06" style="mix-blend-mode:multiply"/>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter></defs>
+<rect width="1200" height="1600" fill="#f8eeda"/><circle cx="864" cy="608" r="360" fill="#ef7f74"/><circle cx="792" cy="564.8" r="158.4" fill="#f8eeda"/><circle cx="864" cy="608" r="360" fill="none" stroke="#2f2a25" stroke-width="2"/><g transform="translate(360,1664) rotate(-6)"><path d="M0,0 C 99.07421005487441,-369.92 -59.44452603292464,-761.5999999999999 24.768552513718603,-1088" fill="none" stroke="#2f2a25" stroke-width="3.2" stroke-linecap="round"/><g transform="translate(0,-369.92) rotate(31.439182423288003)">
+      <path d="M0,0 C 96.8399235288799,-131.81236079141766 262.8512210069597,-102.81364141730577 345.8568697459996,0 C 262.8512210069597,102.81364141730577 96.8399235288799,131.81236079141766 0,0 Z" fill="#93a77c" stroke="#2f2a25" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L345.8568697459996,0" stroke="#2f2a25" stroke-width="1.1" opacity="0.5"/>
+    </g><g transform="translate(0,-598.4000000000001) rotate(-27.89330927352421)">
+      <path d="M0,0 C 94.75058639838696,-112.83960183371407 257.18016308133605,-88.01488943029698 338.39495142281055,0 C 257.18016308133605,88.01488943029698 94.75058639838696,112.83960183371407 0,0 Z" fill="#f8eeda" stroke="#2f2a25" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L338.39495142281055,0" stroke="#2f2a25" stroke-width="1.1" opacity="0.5"/>
+    </g><g transform="translate(0,-826.88) rotate(35.632230448769405)">
+      <path d="M0,0 C 92.35334555889966,-115.60368916911077 250.67336651701333,-90.1708775519064 329.83337699607017,0 C 250.67336651701333,90.1708775519064 92.35334555889966,115.60368916911077 0,0 Z" fill="#93a77c" stroke="#2f2a25" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L329.83337699607017,0" stroke="#2f2a25" stroke-width="1.1" opacity="0.5"/>
+    </g><g transform="translate(0,-1055.36) rotate(-37.91210141777992)">
+      <path d="M0,0 C 89.83410897394421,-110.93678658161183 243.83543864356284,-86.53069353365723 320.83610347837214,0 C 243.83543864356284,86.53069353365723 89.83410897394421,110.93678658161183 0,0 Z" fill="#93a77c" stroke="#2f2a25" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L320.83610347837214,0" stroke="#2f2a25" stroke-width="1.1" opacity="0.5"/>
+    </g></g><g transform="translate(600,1632) rotate(5)"><path d="M0,0 C 66.23971997946501,-272 -39.743831987679,-560 16.559929994866252,-800" fill="none" stroke="#2f2a25" stroke-width="3.2" stroke-linecap="round"/><g transform="translate(0,-272) rotate(34.00338890077546)">
+      <path d="M0,0 C 66.88971103072168,-86.5816022846277 181.5577870833874,-67.53364978200962 238.89182510972026,0 C 181.5577870833874,67.53364978200962 66.88971103072168,86.5816022846277 0,0 Z" fill="#c3cfa9" stroke="#2f2a25" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L238.89182510972026,0" stroke="#2f2a25" stroke-width="1.1" opacity="0.5"/>
+    </g><g transform="translate(0,-524) rotate(-26.96148413559422)">
+      <path d="M0,0 C 65.08349295653403,-83.37634305347179 176.65519516773523,-65.03354758170799 232.44104627333581,0 C 176.65519516773523,65.03354758170799 65.08349295653403,83.37634305347179 0,0 Z" fill="#f8eeda" stroke="#2f2a25" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L232.44104627333581,0" stroke="#2f2a25" stroke-width="1.1" opacity="0.5"/>
+    </g><g transform="translate(0,-776) rotate(24.776651808060706)">
+      <path d="M0,0 C 76.06191916495564,-92.57019220436442 206.45378059059385,-72.20474991940425 271.64971130341297,0 C 206.45378059059385,72.20474991940425 76.06191916495564,92.57019220436442 0,0 Z" fill="#c3cfa9" stroke="#2f2a25" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L271.64971130341297,0" stroke="#2f2a25" stroke-width="1.1" opacity="0.5"/>
+    </g></g><circle cx="216" cy="480" r="96" fill="none" stroke="#e6b44b" stroke-width="31.2"/><circle cx="1060.0290659666875" cy="202.23752801048647" r="6.35693781147711" fill="#f2b28c"/><circle cx="949.8808731731953" cy="192.65098583701575" r="4.52012365241535" fill="#f2b28c"/><circle cx="999.8075423270463" cy="151.0219234188477" r="6.878997040679678" fill="#f2b28c"/><rect x="-36" y="-6.5" width="72" height="13" rx="6.5" fill="#f2b28c" transform="translate(144,1024) rotate(40)"/>
+  <rect width="1200" height="1600" filter="url(#grain)" opacity="0.05" style="mix-blend-mode:multiply"/>
 </svg>

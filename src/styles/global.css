@@ -1,19 +1,19 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Palette — cream paper, pastel orange and green */
-  --color-paper: #fbf5e9;
-  --color-paper-deep: #f2e9d7;
-  --color-paper-card: #fdf9f0;
-  --color-ink: #332a21;
-  --color-ink-soft: #6a5c4d;
-  --color-ink-faint: #7b6b58;
-  --color-sage: #7f9066;
-  --color-sage-deep: #566645;
-  --color-sage-soft: #e4e8d1;
-  --color-clay: #cf8a5e;
-  --color-clay-soft: #f0d3ba;
-  --color-line: #e8dcc7;
+  /* Palette — cream paper, pastel coral and teal-green */
+  --color-paper: #fbf2e0;
+  --color-paper-deep: #f2e5cc;
+  --color-paper-card: #fdf8ec;
+  --color-ink: #2f2a25;
+  --color-ink-soft: #6a5d4e;
+  --color-ink-faint: #7c6c58;
+  --color-sage: #7f9a83;
+  --color-sage-deep: #4f6f65;
+  --color-sage-soft: #dfe8da;
+  --color-clay: #e08a70;
+  --color-clay-soft: #f6d3bf;
+  --color-line: #e9dcc4;
 
   --font-serif: 'Fraunces Variable', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
   --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;

@@ -1,5 +1,7 @@
 /**
- * Generates placeholder artwork so the site looks complete before real photos arrive.
+ * Generates placeholder artwork in a modern pastel style:
+ * flat coral, teal, dusty blue, mustard and peach shapes, bold botanical line work.
+ *
  * Run with: npm run art
  *
  * Drop your own images into src/assets/art/<collection>/ and delete the SVGs you
@@ -22,136 +24,252 @@ function rng(seed) {
   };
 }
 
-const palettes = [
-  { bg: ['#f9f2e6', '#efe2ce'], clay: '#d69a72', sage: '#8c9c74', tan: '#e7d2b5', ink: '#5c6c4a' },
-  { bg: ['#f6ecdd', '#eaddc8'], clay: '#ce8f66', sage: '#7f9167', tan: '#e5cdaf', ink: '#66744f' },
-  { bg: ['#f0ecdc', '#e2e2cb'], clay: '#d79b73', sage: '#87996f', tan: '#dcc8a8', ink: '#566647' },
-  { bg: ['#f7ecdf', '#ebdbc6'], clay: '#c98459', sage: '#8c9c74', tan: '#e5ceb2', ink: '#4f5f42' },
-  { bg: ['#faf4e9', '#f1e7d7'], clay: '#cf9862', sage: '#94a47c', tan: '#e6d1b3', ink: '#6a5a45' },
-  { bg: ['#f3efe2', '#e6e4d2'], clay: '#cf9369', sage: '#7d8f66', tan: '#e0cbaa', ink: '#556445' },
-];
+const C = {
+  cream: '#f8eeda',
+  creamDeep: '#f2e2c5',
+  paper: '#fbf4e4',
+  ink: '#2f2a25',
+  coral: '#ef7f74',
+  peach: '#f2b28c',
+  teal: '#6f9f98',
+  blue: '#93a9c2',
+  mustard: '#e6b44b',
+  green: '#93a77c',
+  greenLight: '#c3cfa9',
+};
 
 const grain = `
-    <filter id="grain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
-    </filter>`;
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>`;
 
-function defs(p) {
-  return `
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0" stop-color="${p.bg[0]}"/>
-      <stop offset="1" stop-color="${p.bg[1]}"/>
-    </linearGradient>
-    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="52"/>
-    </filter>
-    <filter id="soft-sm" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="22"/>
-    </filter>${grain}
-  </defs>`;
+function leafPath(length, width) {
+  return `M0,0 C ${length * 0.28},${-width} ${length * 0.76},${-width * 0.78} ${length},0 C ${length * 0.76},${width * 0.78} ${length * 0.28},${width} 0,0 Z`;
 }
 
-function horizon(w, h, p, r) {
-  const hy = h * (0.58 + r() * 0.08);
-  return `
-  <rect width="${w}" height="${h}" fill="url(#bg)"/>
-  <g filter="url(#soft)" opacity="0.9">
-    <ellipse cx="${w * 0.5}" cy="${h * 0.72}" rx="${w * 0.52}" ry="${h * 0.22}" fill="${p.clay}" opacity="0.62"/>
-    <ellipse cx="${w * 0.24}" cy="${h * 0.38}" rx="${w * 0.3}" ry="${h * 0.2}" fill="${p.sage}" opacity="0.5"/>
-  </g>
-  <line x1="${w * 0.09}" y1="${hy}" x2="${w * 0.91}" y2="${hy}" stroke="${p.ink}" stroke-width="1.4" opacity="0.5"/>
-  <circle cx="${w * 0.7}" cy="${h * 0.33}" r="${Math.min(w, h) * 0.085}" fill="${p.clay}" opacity="0.9"/>
-  <path d="M ${w * 0.14} ${h * 0.24} Q ${w * 0.3} ${h * 0.06} ${w * 0.44} ${h * 0.27}" fill="none" stroke="${p.ink}" stroke-width="1.2" opacity="0.32"/>
-  <rect x="${w * 0.09}" y="${h * 0.84}" width="${w * 0.16}" height="${h * 0.006}" fill="${p.ink}" opacity="0.3"/>`;
+function stem(x, y, height, angle, { leaves = 4, colors = [C.green], r = Math.random } = {}) {
+  const bend = height * (0.04 + r() * 0.06);
+  let parts = `<path d="M0,0 C ${bend},${-height * 0.34} ${-bend * 0.6},${-height * 0.7} ${bend * 0.25},${-height}" fill="none" stroke="${C.ink}" stroke-width="3.2" stroke-linecap="round"/>`;
+
+  for (let i = 0; i < leaves; i += 1) {
+    const t = 0.34 + (i * 0.63) / Math.max(1, leaves - 1);
+    const side = i % 2 === 0 ? 1 : -1;
+    const rotation = side * (23 + r() * 15) + (r() - 0.5) * 6;
+    const length = height * (0.28 + r() * 0.07);
+    const width = length * (0.33 + r() * 0.06);
+    const fill = colors[i % colors.length];
+
+    parts += `<g transform="translate(0,${-height * t}) rotate(${rotation})">
+      <path d="${leafPath(length, width)}" fill="${fill}" stroke="${C.ink}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0,0 L${length},0" stroke="${C.ink}" stroke-width="1.1" opacity="0.5"/>
+    </g>`;
+  }
+
+  return `<g transform="translate(${x},${y}) rotate(${angle})">${parts}</g>`;
 }
 
-function fields(w, h, p, r) {
-  const cx = w * (0.36 + r() * 0.18);
-  return `
-  <rect width="${w}" height="${h}" fill="url(#bg)"/>
-  <g filter="url(#soft)">
-    <ellipse cx="${cx}" cy="${h * 0.42}" rx="${w * 0.34}" ry="${h * 0.28}" fill="${p.sage}" opacity="0.64"/>
-    <ellipse cx="${w * 0.7}" cy="${h * 0.68}" rx="${w * 0.3}" ry="${h * 0.24}" fill="${p.clay}" opacity="0.6"/>
-  </g>
-  <g filter="url(#soft-sm)">
-    <rect x="${w * 0.2}" y="${h * 0.6}" width="${w * 0.4}" height="${h * 0.16}" fill="${p.tan}" opacity="0.75"/>
-  </g>
-  <line x1="${w * 0.28}" y1="${h * 0.1}" x2="${w * 0.28}" y2="${h * 0.9}" stroke="${p.ink}" stroke-width="1.1" opacity="0.4"/>
-  <circle cx="${w * 0.72}" cy="${h * 0.26}" r="${Math.min(w, h) * 0.035}" fill="${p.ink}" opacity="0.65"/>
-  <line x1="${w * 0.12}" y1="${h * 0.86}" x2="${w * 0.88}" y2="${h * 0.86}" stroke="${p.ink}" stroke-width="1" opacity="0.28"/>`;
+function sun(cx, cy, radius, rings = [C.coral, C.cream, C.coral, C.cream], outline = true) {
+  let body = '';
+  const scale = [1, 0.79, 0.54, 0.27];
+  for (let i = 0; i < scale.length; i += 1) {
+    body += `<circle cx="${cx}" cy="${cy}" r="${radius * scale[i]}" fill="${rings[i % rings.length]}"/>`;
+  }
+  if (outline) {
+    body += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${C.ink}" stroke-width="2.2"/>`;
+    body += `<circle cx="${cx}" cy="${cy}" r="${radius * 0.79}" fill="none" stroke="${C.ink}" stroke-width="1.5" opacity="0.7"/>`;
+  }
+  return body;
 }
 
-function arch(w, h, p, r) {
-  const left = w * 0.24;
-  const right = w * 0.76;
-  const top = h * 0.34;
-  const spring = top + (right - left) / 2;
-  const bottom = h * 0.82;
-  return `
-  <rect width="${w}" height="${h}" fill="url(#bg)"/>
-  <rect x="0" y="${h * 0.62}" width="${w}" height="${h * 0.38}" fill="${p.tan}" opacity="0.4"/>
-  <path d="M ${left} ${bottom}
-           L ${left} ${spring}
-           A ${(right - left) / 2} ${(right - left) / 2} 0 0 1 ${right} ${spring}
-           L ${right} ${bottom} Z"
-        fill="${p.sage}" opacity="0.68" filter="url(#soft-sm)"/>
-  <path d="M ${left} ${bottom}
-           L ${left} ${spring}
-           A ${(right - left) / 2} ${(right - left) / 2} 0 0 1 ${right} ${spring}
-           L ${right} ${bottom}"
-        fill="none" stroke="${p.ink}" stroke-width="1.5" opacity="0.45"/>
-  <circle cx="${w * 0.7}" cy="${h * 0.5}" r="${Math.min(w, h) * 0.068}" fill="${p.clay}" opacity="0.9"/>
-  <line x1="${w * 0.1}" y1="${h * 0.9}" x2="${w * 0.9}" y2="${h * 0.9}" stroke="${p.ink}" stroke-width="1.2" opacity="0.35"/>
-  <rect x="${w * 0.13}" y="${h * 0.13}" width="${w * 0.09}" height="${w * 0.09}" fill="${p.clay}" opacity="0.35"/>`;
+function dash(x, y, length, angle, color, width = 13) {
+  return `<rect x="${-length / 2}" y="${-width / 2}" width="${length}" height="${width}" rx="${width / 2}" fill="${color}" transform="translate(${x},${y}) rotate(${angle})"/>`;
 }
 
-function windowShape(w, h, p, r) {
-  const x = w * 0.2;
-  const y = h * 0.18;
-  const ww = w * 0.52;
-  const wh = h * 0.44;
-  return `
-  <rect width="${w}" height="${h}" fill="url(#bg)"/>
-  <g filter="url(#soft)">
-    <ellipse cx="${w * 0.62}" cy="${h * 0.56}" rx="${w * 0.3}" ry="${h * 0.2}" fill="${p.clay}" opacity="0.5"/>
-  </g>
-  <rect x="${x}" y="${y}" width="${ww}" height="${wh}" fill="${p.sage}" opacity="0.4" filter="url(#soft-sm)"/>
-  <rect x="${x}" y="${y}" width="${ww}" height="${wh}" fill="none" stroke="${p.ink}" stroke-width="1.6" opacity="0.5"/>
-  <line x1="${x}" y1="${y + wh / 2}" x2="${x + ww}" y2="${y + wh / 2}" stroke="${p.ink}" stroke-width="1" opacity="0.35"/>
-  <line x1="${x + ww / 2}" y1="${y}" x2="${x + ww / 2}" y2="${y + wh}" stroke="${p.ink}" stroke-width="1" opacity="0.25"/>
-  <circle cx="${w * 0.76}" cy="${h * 0.76}" r="${Math.min(w, h) * 0.09}" fill="${p.clay}" opacity="0.55"/>
-  <path d="M ${w * 0.12} ${h * 0.82} L ${w * 0.34} ${h * 0.72}" stroke="${p.ink}" stroke-width="1.2" opacity="0.3"/>`;
+function confetti(cx, cy, radius, count, color, r = Math.random, spread = 1.3) {
+  let body = '';
+  for (let i = 0; i < count; i += 1) {
+    const angle = (spread * Math.PI * 2 * i) / count + (r() - 0.5) * 0.35;
+    const distance = radius * (0.8 + r() * 0.35);
+    body += dash(
+      cx + Math.cos(angle) * distance,
+      cy + Math.sin(angle) * distance,
+      20 + r() * 24,
+      (angle * 180) / Math.PI + 90 + (r() - 0.5) * 25,
+      color,
+      10 + r() * 5,
+    );
+  }
+  return body;
 }
 
-const variants = [horizon, fields, arch, windowShape];
+function wave(w, h, y, amplitude, fill, { outline = true, up = false } = {}) {
+  const a = up ? -amplitude : amplitude;
+  const path = `M0,${y} C ${w * 0.14},${y - a} ${w * 0.26},${y + a} ${w * 0.44},${y} C ${w * 0.62},${y - a} ${w * 0.78},${y + a} ${w},${y} L ${w},${h} L 0,${h} Z`;
+  const line = `M0,${y} C ${w * 0.14},${y - a} ${w * 0.26},${y + a} ${w * 0.44},${y} C ${w * 0.62},${y - a} ${w * 0.78},${y + a} ${w},${y}`;
+  return `<path d="${path}" fill="${fill}"/>${outline ? `<path d="${line}" fill="none" stroke="${C.ink}" stroke-width="2" opacity="0.6"/>` : ''}`;
+}
+
+function arch(cx, base, width, height, fill, stroke = true) {
+  const r = width / 2;
+  const top = base - height;
+  return `<path d="M ${cx - r} ${base} L ${cx - r} ${top + r} A ${r} ${r} 0 0 1 ${cx + r} ${top + r} L ${cx + r} ${base} Z" fill="${fill}" ${stroke ? `stroke="${C.ink}" stroke-width="2"` : ''}/>`;
+}
+
+function dots(cx, cy, count, spread, color, r = Math.random) {
+  let body = '';
+  for (let i = 0; i < count; i += 1) {
+    const angle = r() * Math.PI * 2;
+    const distance = spread * (0.4 + r() * 1.3);
+    body += `<circle cx="${cx + Math.cos(angle) * distance}" cy="${cy + Math.sin(angle) * distance}" r="${3 + r() * 7}" fill="${color}"/>`;
+  }
+  return body;
+}
+
+/* ---- compositions ---- */
+
+function sunrise(w, h, r, bg) {
+  const s = Math.min(w, h);
+  const cx = w * 0.8;
+  const cy = h * 0.24;
+
+  let body = `<rect width="${w}" height="${h}" fill="${bg}"/>`;
+  body += wave(w, h, h * 0.88, h * 0.03, C.teal);
+  body += sun(cx, cy, s * 0.4);
+  body += confetti(cx - s * 0.4, cy + s * 0.12, s * 0.14, 6, C.peach, r, 0.9);
+  body += stem(w * 0.18, h * 0.92, h * 0.52, -7, { leaves: 4, colors: [C.green, bg, C.greenLight], r });
+  body += stem(w * 0.34, h * 1.0, h * 0.64, 5, { leaves: 3, colors: [bg, C.green, C.greenLight], r });
+  body += dots(w * 0.58, h * 0.64, 4, s * 0.04, C.mustard, r);
+  return body;
+}
+
+function tide(w, h, r, bg) {
+  const s = Math.min(w, h);
+
+  let body = `<rect width="${w}" height="${h}" fill="${bg}"/>`;
+  body += wave(w, h * 0.2, 0, h * 0.05, C.blue, { up: true });
+  body += `<circle cx="${w * 0.24}" cy="${h * 0.35}" r="${s * 0.11}" fill="${C.mustard}"/>`;
+  body += `<circle cx="${w * 0.24}" cy="${h * 0.35}" r="${s * 0.15}" fill="none" stroke="${C.ink}" stroke-width="1.8" opacity="0.55"/>`;
+  body += stem(w * 0.54, h * 1.02, h * 0.6, -4, { leaves: 4, colors: [C.greenLight, bg, C.green], r });
+  body += stem(w * 0.76, h * 1.0, h * 0.44, 8, { leaves: 3, colors: [bg, C.greenLight], r });
+  body += wave(w, h, h * 0.76, h * 0.055, C.teal);
+  body += `<circle cx="${w * 0.84}" cy="${h * 0.14}" r="${s * 0.05}" fill="${C.coral}"/>`;
+  body += confetti(w * 0.12, h * 0.62, s * 0.055, 4, C.peach, r, 1);
+  return body;
+}
+
+function arches(w, h, r, bg) {
+  const s = Math.min(w, h);
+  const base = h * 0.84;
+  const cx = w * 0.32;
+
+  let body = `<rect width="${w}" height="${h}" fill="${bg}"/>`;
+  body += `<rect x="0" y="${h * 0.84}" width="${w}" height="${h * 0.16}" fill="${C.creamDeep}"/>`;
+  body += `<circle cx="0" cy="0" r="${s * 0.34}" fill="${C.blue}" opacity="0.7"/>`;
+  body += arch(cx, base, s * 0.54, h * 0.6, C.teal);
+  body += arch(cx, base, s * 0.38, h * 0.46, C.cream);
+  body += arch(cx, base, s * 0.21, h * 0.32, C.coral);
+  body += sun(w * 0.8, h * 0.2, s * 0.11, [C.mustard, C.cream, C.mustard, C.cream]);
+  body += stem(w * 0.79, h * 1.03, h * 0.4, 7, { leaves: 3, colors: [C.green, bg, C.greenLight], r });
+  body += stem(w * 0.93, h * 1.02, h * 0.3, -9, { leaves: 2, colors: [bg, C.greenLight], r });
+  body += confetti(w * 0.14, h * 0.18, s * 0.05, 4, C.peach, r, 1);
+  body += `<line x1="${w * 0.06}" y1="${h * 0.92}" x2="${w * 0.94}" y2="${h * 0.92}" stroke="${C.ink}" stroke-width="1.5" opacity="0.3"/>`;
+  return body;
+}
+
+function bloom(w, h, r, bg) {
+  const s = Math.min(w, h);
+  const cx = w * 0.72;
+  const cy = h * 0.38;
+  const radius = s * 0.3;
+
+  let body = `<rect width="${w}" height="${h}" fill="${bg}"/>`;
+  body += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="${C.coral}"/>`;
+  body += `<circle cx="${cx - radius * 0.2}" cy="${cy - radius * 0.12}" r="${radius * 0.44}" fill="${C.cream}"/>`;
+  body += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${C.ink}" stroke-width="2"/>`;
+  body += stem(w * 0.3, h * 1.04, h * 0.68, -6, { leaves: 4, colors: [C.green, bg, C.green], r });
+  body += stem(w * 0.5, h * 1.02, h * 0.5, 5, { leaves: 3, colors: [C.greenLight, bg], r });
+  body += `<circle cx="${w * 0.18}" cy="${h * 0.3}" r="${s * 0.08}" fill="none" stroke="${C.mustard}" stroke-width="${s * 0.026}"/>`;
+  body += dots(w * 0.84, h * 0.12, 3, s * 0.035, C.peach, r);
+  body += dash(w * 0.12, h * 0.64, s * 0.06, 40, C.peach);
+  return body;
+}
+
+function meadow(w, h, r, bg) {
+  const s = Math.min(w, h);
+
+  let body = `<rect width="${w}" height="${h}" fill="${bg}"/>`;
+  body += sun(w * 0.14, h * 0.16, s * 0.08, [C.mustard, C.cream, C.mustard, C.cream]);
+  body += `<circle cx="${w * 0.78}" cy="${h * 0.12}" r="${s * 0.042}" fill="${C.coral}"/>`;
+  body += stem(w * 0.2, h * 1.02, h * 0.62, -5, { leaves: 4, colors: [C.green, bg, C.greenLight], r });
+  body += stem(w * 0.42, h * 0.98, h * 0.82, 3, { leaves: 5, colors: [bg, C.green, C.greenLight], r });
+  body += stem(w * 0.68, h * 1.04, h * 0.68, -2, { leaves: 4, colors: [C.greenLight, bg], r });
+  body += wave(w, h, h * 0.81, h * 0.04, C.teal);
+  body += wave(w, h, h * 0.92, h * 0.02, C.blue, { outline: false });
+  body += dots(w * 0.87, h * 0.52, 4, s * 0.04, C.coral, r);
+  return body;
+}
+
+function orbit(w, h, r, bg) {
+  const s = Math.min(w, h);
+  const cx = w * 0.74;
+  const cy = h * 0.22;
+  const radius = s * 0.44;
+
+  let body = `<rect width="${w}" height="${h}" fill="${bg}"/>`;
+  body += `<path d="M ${w * 0.04} ${h * 0.14} C ${w * 0.08} ${h * 0.02} ${w * 0.28} ${h * 0.0} ${w * 0.44} ${h * 0.06} L ${w * 0.44} ${h * 0.19} C ${w * 0.3} ${h * 0.13} ${w * 0.12} ${h * 0.16} ${w * 0.04} ${h * 0.27} Z" fill="${C.blue}"/>`;
+  body += sun(cx, cy, radius);
+  body += stem(w * 0.2, h * 1.02, h * 0.64, 2, { leaves: 4, colors: [C.green, bg, C.green], r });
+  body += `<circle cx="${w * 0.38}" cy="${h * 0.28}" r="${s * 0.055}" fill="${C.mustard}"/>`;
+  body += dash(w * 0.6, h * 0.07, s * 0.05, 14, C.peach);
+  body += dots(w * 0.1, h * 0.7, 3, s * 0.035, C.peach, r);
+  body += wave(w, h, h * 0.9, h * 0.025, C.teal, { outline: false });
+  return body;
+}
+
+function grove(w, h, r, bg) {
+  const s = Math.min(w, h);
+
+  let body = `<rect width="${w}" height="${h}" fill="${bg}"/>`;
+  body += `<circle cx="${w * 0.78}" cy="${h * 0.2}" r="${s * 0.12}" fill="${C.peach}"/>`;
+  body += `<circle cx="${w * 0.18}" cy="${h * 0.26}" r="${s * 0.07}" fill="none" stroke="${C.mustard}" stroke-width="${s * 0.022}"/>`;
+  body += stem(w * 0.38, h * 1.05, h * 0.78, -3, { leaves: 5, colors: [C.green, bg, C.greenLight, C.green], r });
+  body += stem(w * 0.62, h * 1.03, h * 0.6, 4, { leaves: 4, colors: [C.greenLight, bg, C.green], r });
+  body += wave(w, h, h * 0.9, h * 0.025, C.teal, { outline: false });
+  body += dots(w * 0.82, h * 0.62, 4, s * 0.04, C.coral, r);
+  body += dash(w * 0.16, h * 0.52, s * 0.05, 65, C.peach);
+  return body;
+}
+
+const variants = [sunrise, tide, arches, bloom, meadow, orbit, grove];
+const backgrounds = [C.cream, C.paper, C.creamDeep, C.cream, C.paper, C.creamDeep];
 
 const works = [
   // Paintings
-  { collection: 'paintings', slug: 'still-morning-2024', w: 1200, h: 1600, variant: 0, palette: 0, seed: 11 },
-  { collection: 'paintings', slug: 'dusk-study-2023', w: 1600, h: 1200, variant: 1, palette: 2, seed: 23 },
-  { collection: 'paintings', slug: 'the-long-field-2025', w: 1800, h: 1000, variant: 0, palette: 1, seed: 37 },
-  { collection: 'paintings', slug: 'clay-and-light-2022', w: 1200, h: 1600, variant: 2, palette: 3, seed: 41 },
-  { collection: 'paintings', slug: 'quiet-house-2024', w: 1400, h: 1400, variant: 3, palette: 0, seed: 53 },
-  { collection: 'paintings', slug: 'low-sun-2023', w: 1200, h: 1600, variant: 1, palette: 1, seed: 67 },
+  { collection: 'paintings', slug: 'still-morning-2024', w: 1200, h: 1600, variant: 0, bg: 0, seed: 11 },
+  { collection: 'paintings', slug: 'dusk-study-2023', w: 1600, h: 1200, variant: 1, bg: 1, seed: 23 },
+  { collection: 'paintings', slug: 'the-long-field-2025', w: 1800, h: 1000, variant: 4, bg: 2, seed: 37 },
+  { collection: 'paintings', slug: 'clay-and-light-2022', w: 1200, h: 1600, variant: 3, bg: 3, seed: 41 },
+  { collection: 'paintings', slug: 'quiet-house-2024', w: 1400, h: 1400, variant: 2, bg: 4, seed: 53 },
+  { collection: 'paintings', slug: 'low-sun-2023', w: 1200, h: 1600, variant: 6, bg: 5, seed: 67 },
   // Works on paper
-  { collection: 'works-on-paper', slug: 'fern-notes-2025', w: 1500, h: 1100, variant: 1, palette: 4, seed: 71 },
-  { collection: 'works-on-paper', slug: 'after-rain-2023', w: 1200, h: 1500, variant: 2, palette: 2, seed: 83 },
-  { collection: 'works-on-paper', slug: 'small-hours-2022', w: 1200, h: 1200, variant: 3, palette: 4, seed: 97 },
-  { collection: 'works-on-paper', slug: 'blue-window-2024', w: 1500, h: 1100, variant: 3, palette: 5, seed: 101 },
+  { collection: 'works-on-paper', slug: 'fern-notes-2025', w: 1500, h: 1100, variant: 6, bg: 0, seed: 71 },
+  { collection: 'works-on-paper', slug: 'after-rain-2023', w: 1200, h: 1500, variant: 4, bg: 2, seed: 83 },
+  { collection: 'works-on-paper', slug: 'small-hours-2022', w: 1200, h: 1200, variant: 3, bg: 1, seed: 97 },
+  { collection: 'works-on-paper', slug: 'blue-window-2024', w: 1500, h: 1100, variant: 5, bg: 3, seed: 101 },
   // Studies
-  { collection: 'studies', slug: 'ochre-study-2021', w: 1200, h: 1400, variant: 0, palette: 4, seed: 113 },
-  { collection: 'studies', slug: 'margins-2025', w: 1300, h: 1000, variant: 3, palette: 4, seed: 127 },
+  { collection: 'studies', slug: 'ochre-study-2021', w: 1200, h: 1400, variant: 2, bg: 5, seed: 113 },
+  { collection: 'studies', slug: 'margins-2025', w: 1300, h: 1000, variant: 0, bg: 1, seed: 127 },
 ];
 
 for (const work of works) {
-  const palette = palettes[work.palette];
   const random = rng(work.seed);
-  const body = variants[work.variant](work.w, work.h, palette, random);
+  const bg = backgrounds[work.bg];
+  const body = variants[work.variant](work.w, work.h, random, bg);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${work.w}" height="${work.h}" viewBox="0 0 ${work.w} ${work.h}" role="img">
-${defs(palette)}${body}
-  <rect width="${work.w}" height="${work.h}" filter="url(#grain)" opacity="0.06" style="mix-blend-mode:multiply"/>
+  <defs>${grain}</defs>
+${body}
+  <rect width="${work.w}" height="${work.h}" filter="url(#grain)" opacity="0.05" style="mix-blend-mode:multiply"/>
 </svg>
 `;
 
@@ -162,10 +280,11 @@ ${defs(palette)}${body}
 }
 
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#fbf5e9"/>
-  <circle cx="26" cy="30" r="17" fill="#8c9c74" opacity="0.9"/>
-  <path d="M26 47a17 17 0 0 0 17-17" fill="none" stroke="#d69a72" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="45" cy="45" r="4" fill="#d69a72"/>
+  <rect width="64" height="64" rx="14" fill="#fbf2df"/>
+  <circle cx="32" cy="32" r="21" fill="#ef7f74"/>
+  <circle cx="32" cy="32" r="14" fill="#fbf2df"/>
+  <circle cx="32" cy="32" r="7" fill="#ef7f74"/>
+  <path d="M12 46c8-8 32-8 40 0" fill="none" stroke="#6f9f98" stroke-width="4" stroke-linecap="round"/>
 </svg>
 `;
 await writeFile(join(root, 'public', 'favicon.svg'), favicon, 'utf8');
