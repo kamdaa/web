@@ -17,24 +17,24 @@ const posts = (await getCollection('journal', ({ data }) => !data.draft))
 ---
 
 <Base>
-  <section class="container-page pt-14 pb-4 md:pt-20 lg:pt-24">
-    <div class="grid gap-12 lg:grid-cols-[1.06fr_0.94fr] lg:items-end lg:gap-16">
-      <div class="lg:pb-8">
-        <p class="eyebrow reveal">Painter & artist · {site.location}</p>
+  <section class="container-page pt-12 pb-4 md:pt-16 lg:pt-20">
+    <div class="grid gap-12 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-16">
+      <div>
+        <p class="eyebrow reveal text-sage-deep">Selected works · {site.location}</p>
 
-        <h1 class="display mt-6 reveal" style="--reveal-delay: 70ms">
-          <span class="block">Kamda</span>
-          <span class="block italic text-sage-deep" style="font-variation-settings: 'SOFT' 70, 'WONK' 1;">
-            Kachroo
-          </span>
+        <h1 class="mt-5 font-serif text-[2.1rem] leading-[1.05] tracking-[-0.03em] reveal md:text-[3.2rem]" style="--reveal-delay: 70ms">
+          {site.name}
         </h1>
 
-        <p class="mt-8 max-w-md text-[1.05rem] leading-relaxed text-ink-soft reveal md:text-lg" style="--reveal-delay: 130ms">
+        <p class="mt-5 max-w-sm text-[1rem] leading-relaxed text-ink-soft reveal md:text-[1.08rem]" style="--reveal-delay: 120ms">
           {site.tagline}
         </p>
 
-        <div class="mt-9 flex flex-wrap items-center gap-6 reveal" style="--reveal-delay: 190ms">
-          <a class="btn btn-solid" href={url('/work')}>View the work</a>
+        <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 reveal" style="--reveal-delay: 170ms">
+          <a class="arrow-link" href={url('/work')}>
+            <span>View the work</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
           <a class="link-underline text-sm text-ink-soft transition-colors hover:text-ink" href={url('/about')}>
             About the artist
           </a>
