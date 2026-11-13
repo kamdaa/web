@@ -8,7 +8,7 @@ for everything else.
 
 **Live site:** https://kamdaa.github.io/web/
 
-Double-click **`View Site.cmd`** in this folder to see it on your own computer.
+Double-click **`Open Live Site.url`** to visit it, or **`View Site.cmd`** to preview it on your own computer.
 
 Your browser opens the site. A small black server window also opens, minimised — keep it
 open while you browse, and close it when you are finished. Nothing is sent anywhere; it
