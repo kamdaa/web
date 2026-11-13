@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config';
+import frida from '../assets/about/frida.svg';
+
+const details = [
+  { label: 'Based in', value: site.location },
+  { label: 'Works in', value: 'Oil, acrylic, gouache, and ink' },
+  { label: 'Studio visits', value: 'By appointment' },
+  { label: 'Commissions', value: 'A small number each year — write to me' },
+];
+---
+
+<Base title="About" description={`About ${site.name} — painter, works on paper, and studio notes.`}>
+  <section class="container-page pt-14 md:pt-20">
+    <p class="eyebrow reveal">About</p>
+    <h1 class="mt-5 max-w-3xl text-heading reveal" style="--reveal-delay: 70ms">
+      A slow practice, held between looking and remembering.
+    </h1>
+  </section>
+
+  <section class="container-page mt-14 md:mt-20">
+    <div class="grid gap-12 md:grid-cols-12 md:gap-8">
+      <div class="md:col-span-5">
+        <div class="md:sticky md:top-24">
+          <img
+            src={frida.src}
+            width={frida.width}
+            height={frida.height}
+            alt="Abstract portrait inspired by Frida Kahlo — flowers in her hair, strong brows, and a green dress."
+            class="block h-auto w-full"
+            loading="eager"
+          />
+          <p class="mt-3 border-t border-line pt-2.5 text-[0.63rem] uppercase tracking-[0.18em] text-ink-faint">
+            Homage · After Frida Kahlo
+          </p>
+        </div>
+      </div>
+
+      <div class="md:col-span-6 md:col-start-7">
+        <div class="prose-editorial">
+          <p>
+            I'm Kamda, a painter working between observation and memory. My days move between a
+            small studio, a folder of photographs, and a lot of looking.
+          </p>
+          <p>
+            I began with drawing — the kind that happens in margins — and never really left it.
+            Painting came later, and with it the discovery that a colour can hold a season.
+          </p>
+          <p>
+            These days I work in series. A group of paintings will start with something small: a
+            shadow on a wall, the underside of a leaf, a particular grey before rain. I return to
+            that motif until it stops being a subject and becomes a place.
+          </p>
+          <p>
+            When I'm not painting, I'm reading, walking, or making notes for the journal here.
+            Commissions are open a few times a year.
+          </p>
+        </div>
+
+        <dl class="mt-14 grid gap-x-8 gap-y-7 border-t border-line pt-8 sm:grid-cols-2">
+          {
+            details.map((item) => (
+              <div>
+                <dt class="eyebrow">{item.label}</dt>
+                <dd class="mt-2 text-[0.95rem] leading-relaxed text-ink">{item.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <div class="mt-12 border-t border-line pt-8">
+          <p class="eyebrow">Elsewhere</p>
+          <div class="mt-4 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+            <a class="link-underline text-ink-soft hover:text-ink" href={`mailto:${site.email}`}>
+              {site.email}
+            </a>
+            <a
+              class="link-underline text-ink-soft hover:text-ink"
+              href={site.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {site.instagram.handle}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-20 border-y border-line bg-paper-deep/55 py-16 md:mt-28 md:py-24">
+    <div class="container-page">
+      <div class="max-w-3xl reveal">
+        <p class="eyebrow">Artist statement</p>
+        <blockquote class="mt-7 font-serif text-[1.5rem] leading-[1.35] tracking-[-0.02em] md:text-[2.05rem]">
+          “{site.statement}”
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-page mt-20 md:mt-24">
+    <div class="flex flex-col items-start gap-6 border-t border-line pt-10 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p class="eyebrow">Enquiries</p>
+        <p class="mt-4 max-w-xl font-serif text-[1.8rem] leading-[1.2] tracking-[-0.02em] md:text-[2.4rem]">
+          Paintings, commissions, or simply a note — the studio door is open.
+        </p>
+      </div>
+      <a class="btn btn-solid shrink-0" href={`mailto:${site.email}`}>Write to me</a>
+    </div>
+  </section>
+</Base>

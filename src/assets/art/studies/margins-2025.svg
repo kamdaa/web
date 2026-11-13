@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="1000" viewBox="0 0 1300 1000" role="img">
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#faf4e9"/>
+      <stop offset="1" stop-color="#f1e7d7"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="52"/>
+    </filter>
+    <filter id="soft-sm" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+  <rect width="1300" height="1000" fill="url(#bg)"/>
+  <g filter="url(#soft)">
+    <ellipse cx="806" cy="560" rx="390" ry="200" fill="#cf9862" opacity="0.5"/>
+  </g>
+  <rect x="260" y="180" width="676" height="440" fill="#94a47c" opacity="0.4" filter="url(#soft-sm)"/>
+  <rect x="260" y="180" width="676" height="440" fill="none" stroke="#6a5a45" stroke-width="1.6" opacity="0.5"/>
+  <line x1="260" y1="400" x2="936" y2="400" stroke="#6a5a45" stroke-width="1" opacity="0.35"/>
+  <line x1="598" y1="180" x2="598" y2="620" stroke="#6a5a45" stroke-width="1" opacity="0.25"/>
+  <circle cx="988" cy="760" r="90" fill="#cf9862" opacity="0.55"/>
+  <path d="M 156 820 L 442.00000000000006 720" stroke="#6a5a45" stroke-width="1.2" opacity="0.3"/>
+  <rect width="1300" height="1000" filter="url(#grain)" opacity="0.06" style="mix-blend-mode:multiply"/>
+</svg>

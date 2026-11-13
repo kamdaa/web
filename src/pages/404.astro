@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="This page has slipped out of the frame.">
+  <section class="container-page flex min-h-[60vh] flex-col justify-center py-20">
+    <p class="eyebrow reveal">404</p>
+    <h1 class="mt-6 max-w-2xl text-heading reveal" style="--reveal-delay: 70ms">
+      This page has slipped out of the frame.
+    </h1>
+    <p class="mt-6 max-w-md text-ink-soft reveal" style="--reveal-delay: 120ms">
+      The link may be old, or the work may have moved. The collections are all still here.
+    </p>
+    <div class="mt-9 flex flex-wrap items-center gap-6 reveal" style="--reveal-delay: 170ms">
+      <a class="btn btn-solid" href="/work">View the work</a>
+      <a class="link-underline text-sm text-ink-soft hover:text-ink" href="/">Back home</a>
+    </div>
+  </section>
+</Base>

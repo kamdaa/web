@@ -1,0 +1,70 @@
+---
+import { nav, site } from '../config';
+
+interface Props {
+  year: number;
+}
+const { year } = Astro.props;
+---
+
+<footer class="mt-24 border-t border-line md:mt-32">
+  <div class="container-page py-14 md:py-20">
+    <div class="grid gap-14 md:grid-cols-[1.5fr_1fr] md:gap-10">
+      <div>
+        <p class="eyebrow">The studio</p>
+        <p class="mt-5 max-w-xl font-serif text-[1.9rem] leading-[1.15] tracking-[-0.02em] md:text-[2.6rem]">
+          For a painting, a commission, or a long conversation about colour — write to me.
+        </p>
+        <a class="arrow-link mt-8" href={`mailto:${site.email}`}>
+          <span>{site.email}</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8 md:justify-items-end">
+        <div>
+          <p class="eyebrow">Explore</p>
+          <ul class="mt-5 space-y-2.5 text-sm text-ink-soft">
+            {
+              nav.map((item) => (
+                <li>
+                  <a class="link-underline transition-colors hover:text-ink" href={item.href}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <p class="eyebrow">Elsewhere</p>
+          <ul class="mt-5 space-y-2.5 text-sm text-ink-soft">
+            <li>
+              <a
+                class="link-underline transition-colors hover:text-ink"
+                href={site.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+              </a>
+            </li>
+            <li>
+              <a class="link-underline transition-colors hover:text-ink" href={`mailto:${site.email}`}>
+                Email
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-2 border-t border-line pt-6 text-[0.7rem] tracking-[0.04em] text-ink-faint sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} {site.name}. All images and words are the artist's own.</p>
+      <p class="sm:text-right">Made slowly, with paper and paint.</p>
+    </div>
+  </div>
+</footer>

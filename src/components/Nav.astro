@@ -1,0 +1,47 @@
+---
+import { nav, site } from '../config';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`);
+---
+
+<header class="sticky top-0 z-40 border-b border-line/70 bg-paper/85 backdrop-blur-md">
+  <div class="container-page flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
+    <a
+      href="/"
+      class="font-serif text-[1.05rem] leading-none tracking-[-0.02em] text-ink transition-opacity duration-300 hover:opacity-70 md:text-xl"
+      style="font-variation-settings: 'SOFT' 40, 'WONK' 1;"
+    >
+      {site.name}
+    </a>
+
+    <nav aria-label="Main">
+      <ul class="flex items-center gap-5 md:gap-8">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class:list={[
+                  'relative inline-block text-[0.63rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 md:text-[0.68rem] md:tracking-[0.22em]',
+                  isActive(item.href) ? 'text-ink' : 'text-ink-soft hover:text-ink',
+                ]}
+              >
+                {item.label}
+                <span
+                  class:list={[
+                    'absolute -bottom-1.5 left-0 h-px bg-clay transition-all duration-500 ease-soft',
+                    isActive(item.href) ? 'w-full' : 'w-0',
+                  ]}
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

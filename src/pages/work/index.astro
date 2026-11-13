@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArtImage from '../../components/ArtImage.astro';
+import { getAllArtworks, getCollections } from '../../lib/art';
+
+const collections = getCollections();
+const total = getAllArtworks().length;
+---
+
+<Base title="Work" description="Paintings, works on paper, and studies by Kamda Kachroo.">
+  <section class="container-page pt-14 md:pt-20">
+    <div class="grid gap-8 border-b border-line pb-10 md:grid-cols-2 md:items-end md:pb-12">
+      <div>
+        <p class="eyebrow reveal">The archive · {total} works</p>
+        <h1 class="mt-5 text-heading reveal" style="--reveal-delay: 70ms">Work</h1>
+      </div>
+      <p class="max-w-md text-[1.02rem] leading-relaxed text-ink-soft reveal md:justify-self-end" style="--reveal-delay: 130ms">
+        Three ongoing collections — canvases, works on paper, and the studies that sit between them.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-page mt-4">
+    {
+      collections.map((collection, index) => (
+        <article class="border-b border-line">
+          <a
+            href={`/work/${collection.slug}`}
+            class="group grid gap-8 py-10 md:grid-cols-12 md:items-center md:py-14"
+          >
+            <div class:list={['md:col-span-7', index % 2 === 1 && 'md:order-2']}>
+              <div class="artframe aspect-[5/4] sm:aspect-[16/10]">
+                {collection.cover && (
+                  <ArtImage
+                    artwork={collection.cover}
+                    sizes="(min-width: 768px) 56vw, 94vw"
+                    widths={[600, 900, 1200, 1600]}
+                    class="h-full w-full object-cover transition-transform duration-[1.6s] ease-soft group-hover:scale-[1.025]"
+                  />
+                )}
+              </div>
+            </div>
+
+            <div class:list={['md:col-span-5', index % 2 === 1 ? 'md:order-1 md:pr-10' : 'md:pl-10']}>
+              <p class="eyebrow">
+                {collection.count} {collection.count === 1 ? 'work' : 'works'}
+              </p>
+              <h2 class="mt-4 font-serif text-[2.1rem] leading-none tracking-[-0.03em] transition-colors group-hover:text-sage-deep md:text-[2.7rem]">
+                {collection.name}
+              </h2>
+              <p class="mt-4 max-w-sm text-[0.98rem] leading-relaxed text-ink-soft">
+                {collection.blurb}
+              </p>
+              <span class="arrow-link mt-7">
+                <span>View collection</span>
+                <span class="arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </a>
+        </article>
+      ))
+    }
+  </section>
+</Base>

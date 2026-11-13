@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import type { Artwork } from '../lib/art';
+
+interface Props {
+  artwork: Artwork;
+  widths?: number[];
+  sizes?: string;
+  priority?: boolean;
+  class?: string;
+}
+
+const {
+  artwork,
+  widths = [600, 900, 1200, 1600, 2000],
+  sizes = '(min-width: 1024px) 50vw, 92vw',
+  priority = false,
+  class: className = 'h-auto w-full',
+} = Astro.props;
+
+const isSvg = artwork.image.format === 'svg';
+---
+
+{
+  isSvg ? (
+    <img
+      src={artwork.image.src}
+      width={artwork.image.width}
+      height={artwork.image.height}
+      alt={artwork.alt}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+      class={className}
+    />
+  ) : (
+    <Image
+      src={artwork.image}
+      alt={artwork.alt}
+      widths={widths}
+      sizes={sizes}
+      format="webp"
+      quality={88}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+      class={className}
+    />
+  )
+}

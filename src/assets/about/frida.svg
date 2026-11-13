@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1250" viewBox="0 0 1000 1250" role="img" aria-label="Abstract portrait inspired by Frida Kahlo, with flowers in her hair">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.15" y2="1">
+      <stop offset="0" stop-color="#f6e7d1"/>
+      <stop offset="0.55" stop-color="#ecc9a9"/>
+      <stop offset="1" stop-color="#d99a72"/>
+    </linearGradient>
+    <linearGradient id="face" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f7e8d0"/>
+      <stop offset="1" stop-color="#e9cbaa"/>
+    </linearGradient>
+    <filter id="blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="42"/>
+    </filter>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <g id="flower">
+      <circle cx="0" cy="-19" r="17"/>
+      <circle cx="18" cy="-6" r="17"/>
+      <circle cx="11" cy="16" r="17"/>
+      <circle cx="-11" cy="16" r="17"/>
+      <circle cx="-18" cy="-6" r="17"/>
+      <circle cx="0" cy="0" r="10" fill="#f9f1e3"/>
+    </g>
+    <g id="leaf">
+      <ellipse cx="0" cy="0" rx="9" ry="26"/>
+    </g>
+  </defs>
+
+  <rect width="1000" height="1250" fill="url(#bg)"/>
+
+  <!-- soft field behind the figure -->
+  <rect x="110" y="200" width="430" height="760" fill="#f9f1e3" opacity="0.35" transform="rotate(-7 325 580)"/>
+  <circle cx="512" cy="470" r="330" fill="#8c9c74" opacity="0.42" filter="url(#blur)"/>
+  <circle cx="740" cy="930" r="180" fill="#d69a72" opacity="0.5" filter="url(#blur)"/>
+
+  <!-- shoulders -->
+  <path d="M 90 1250 C 150 1030 320 925 500 925 C 680 925 850 1030 910 1250 Z" fill="#5c6c4a"/>
+  <path d="M 380 960 C 430 1010 570 1010 620 960 L 600 1250 L 400 1250 Z" fill="#4a5940" opacity="0.55"/>
+
+  <!-- neck -->
+  <path d="M 448 700 h 104 v 250 c 0 30 -104 30 -104 0 Z" fill="#e6c6a3"/>
+
+  <!-- hair mass -->
+  <path d="M 225 560 C 210 300 340 160 500 160 C 660 160 790 300 775 560 C 770 710 730 830 655 905 L 600 850 C 660 780 695 690 695 575 C 695 455 610 375 500 375 C 390 375 305 455 305 575 C 305 690 340 780 400 850 L 345 905 C 270 830 230 710 225 560 Z" fill="#332a21"/>
+
+  <!-- face -->
+  <ellipse cx="500" cy="548" rx="172" ry="222" fill="url(#face)"/>
+  <ellipse cx="500" cy="548" rx="172" ry="222" fill="none" stroke="#b98d68" stroke-width="1.5" opacity="0.35"/>
+
+  <!-- side locks -->
+  <path d="M 328 470 C 302 560 305 690 352 786 C 376 716 368 610 386 546 Z" fill="#332a21"/>
+  <path d="M 672 470 C 698 560 695 690 648 786 C 624 716 632 610 614 546 Z" fill="#332a21"/>
+
+  <!-- cheeks -->
+  <ellipse cx="400" cy="630" rx="52" ry="38" fill="#d69a72" opacity="0.4" filter="url(#soft)"/>
+  <ellipse cx="600" cy="630" rx="52" ry="38" fill="#d69a72" opacity="0.4" filter="url(#soft)"/>
+
+  <!-- unibrow -->
+  <path d="M 378 505 C 424 468 480 482 500 504 C 520 482 576 468 622 505" fill="none" stroke="#332a21" stroke-width="15" stroke-linecap="round"/>
+
+  <!-- open eyes -->
+  <path d="M 398 551 C 424 530 468 530 492 551 C 468 572 424 572 398 551 Z" fill="#faf1e1"/>
+  <path d="M 602 551 C 576 530 532 530 508 551 C 532 572 576 572 602 551 Z" fill="#faf1e1"/>
+  <circle cx="445" cy="551" r="10" fill="#332a21"/>
+  <circle cx="555" cy="551" r="10" fill="#332a21"/>
+  <circle cx="448" cy="548" r="3" fill="#f9f1e3"/>
+  <circle cx="558" cy="548" r="3" fill="#f9f1e3"/>
+  <path d="M 398 551 C 424 530 468 530 492 551" fill="none" stroke="#332a21" stroke-width="6.5" stroke-linecap="round"/>
+  <path d="M 602 551 C 576 530 532 530 508 551" fill="none" stroke="#332a21" stroke-width="6.5" stroke-linecap="round"/>
+
+  <!-- nose -->
+  <path d="M 500 566 L 500 632 C 500 648 512 655 522 646" fill="none" stroke="#b98d68" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- lips -->
+  <path d="M 452 684 C 470 666 486 664 500 676 C 514 664 530 666 548 684 C 528 706 472 706 452 684 Z" fill="#bd6a50"/>
+  <path d="M 460 684 C 480 690 520 690 540 684" fill="none" stroke="#8f4a37" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- earrings -->
+  <circle cx="318" cy="712" r="15" fill="#d69a72"/>
+  <circle cx="682" cy="712" r="15" fill="#d69a72"/>
+  <path d="M 318 730 v 34" stroke="#d69a72" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 682 730 v 34" stroke="#d69a72" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="318" cy="772" r="8" fill="#5c6c4a"/>
+  <circle cx="682" cy="772" r="8" fill="#5c6c4a"/>
+
+  <!-- braids -->
+  <path d="M 322 720 C 292 850 296 975 330 1092" fill="none" stroke="#332a21" stroke-width="46" stroke-linecap="round"/>
+  <path d="M 678 720 C 708 850 704 975 670 1092" fill="none" stroke="#332a21" stroke-width="46" stroke-linecap="round"/>
+  <path d="M 322 720 C 292 850 296 975 330 1092" fill="none" stroke="#4d3d2f" stroke-width="46" stroke-linecap="round" stroke-dasharray="5 24" opacity="0.75"/>
+  <path d="M 678 720 C 708 850 704 975 670 1092" fill="none" stroke="#4d3d2f" stroke-width="46" stroke-linecap="round" stroke-dasharray="5 24" opacity="0.75"/>
+
+  <!-- ribbons -->
+  <path d="M 330 1088 C 300 1120 300 1160 326 1180 C 348 1152 350 1116 330 1088 Z" fill="#d69a72"/>
+  <path d="M 670 1088 C 700 1120 700 1160 674 1180 C 652 1152 650 1116 670 1088 Z" fill="#d69a72"/>
+
+  <!-- flower crown -->
+  <g fill="#8c9c74">
+    <use href="#leaf" x="286" y="300" transform="rotate(-42 286 300)"/>
+    <use href="#leaf" x="714" y="300" transform="rotate(42 714 300)"/>
+    <use href="#leaf" x="356" y="222" transform="rotate(-58 356 222)"/>
+    <use href="#leaf" x="644" y="222" transform="rotate(58 644 222)"/>
+  </g>
+  <g fill="#d69a72">
+    <use href="#flower" x="330" y="292"/>
+    <use href="#flower" x="545" y="196"/>
+    <use href="#flower" x="672" y="286"/>
+  </g>
+  <g fill="#e8c7a5">
+    <use href="#flower" x="405" y="232"/>
+    <use href="#flower" x="600" y="234"/>
+  </g>
+  <g fill="#8c9c74">
+    <use href="#flower" x="480" y="186"/>
+  </g>
+
+  <!-- abstract accent marks -->
+  <path d="M 120 1110 H 880" stroke="#332a21" stroke-width="1.5" opacity="0.22"/>
+  <rect x="712" y="1004" width="72" height="72" fill="none" stroke="#d69a72" stroke-width="2" opacity="0.7"/>
+  <circle cx="252" cy="998" r="7" fill="#8c9c74" opacity="0.8"/>
+
+  <rect width="1000" height="1250" filter="url(#grain)" opacity="0.055" style="mix-blend-mode:multiply"/>
+</svg>

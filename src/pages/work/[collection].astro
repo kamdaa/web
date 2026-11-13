@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArtGrid from '../../components/ArtGrid.astro';
+import { getCollectionBySlug, getCollections } from '../../lib/art';
+
+export function getStaticPaths() {
+  return getCollections().map((collection) => ({
+    params: { collection: collection.slug },
+    props: { collection },
+  }));
+}
+
+const { collection } = Astro.props;
+const collections = getCollections();
+const position = collections.findIndex((entry) => entry.slug === collection.slug);
+const previous = position > 0 ? collections[position - 1] : undefined;
+const next = position < collections.length - 1 ? collections[position + 1] : undefined;
+
+// Fail loudly at build time if a collection disappears.
+if (!getCollectionBySlug(collection.slug)) {
+  throw new Error(`Unknown collection: ${collection.slug}`);
+}
+---
+
+<Base
+  title={collection.name}
+  description={collection.blurb ?? `The ${collection.name} collection by Kamda Kachroo.`}
+>
+  <section class="container-page pt-12 md:pt-16">
+    <a
+      href="/work"
+      class="link-quiet text-[0.66rem] uppercase tracking-[0.2em] transition-colors hover:text-ink"
+    >
+      <span aria-hidden="true">←</span>
+      <span>All work</span>
+    </a>
+
+    <div class="mt-8 grid gap-6 border-b border-line pb-9 md:grid-cols-[1fr_auto] md:items-end md:pb-10">
+      <div>
+        <h1 class="text-heading reveal">{collection.name}</h1>
+        {collection.description && (
+          <p class="mt-5 max-w-xl text-[1.02rem] leading-relaxed text-ink-soft reveal" style="--reveal-delay: 80ms">
+            {collection.description}
+          </p>
+        )}
+      </div>
+      <p class="eyebrow reveal md:pb-2">
+        {collection.count} {collection.count === 1 ? 'work' : 'works'}
+      </p>
+    </div>
+  </section>
+
+  <section class="container-page mt-10 md:mt-12">
+    <ArtGrid artworks={collection.artworks} />
+  </section>
+
+  <nav class="container-page mt-6 border-t border-line pt-6" aria-label="Collections">
+    <div class="flex flex-wrap items-baseline justify-between gap-4">
+      {
+        previous ? (
+          <a href={`/work/${previous.slug}`} class="group max-w-[45%]">
+            <span class="eyebrow">Previous</span>
+            <span class="mt-1 block font-serif text-lg transition-colors group-hover:text-sage-deep">
+              {previous.name}
+            </span>
+          </a>
+        ) : (
+          <span></span>
+        )
+      }
+      {
+        next ? (
+          <a href={`/work/${next.slug}`} class="group max-w-[45%] text-right">
+            <span class="eyebrow">Next</span>
+            <span class="mt-1 block font-serif text-lg transition-colors group-hover:text-sage-deep">
+              {next.name}
+            </span>
+          </a>
+        ) : (
+          <span></span>
+        )
+      }
+    </div>
+  </nav>
+</Base>
