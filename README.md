@@ -6,7 +6,7 @@ for everything else.
 
 ## See your site (no technical steps)
 
-**Live site:** https://kamdaa.github.io/web/
+**Live site:** https://kamdaa.github.io/
 
 Double-click **`Open Live Site.url`** to visit it, or **`View Site.cmd`** to preview it on your own computer.
 
@@ -121,6 +121,6 @@ return all work without a dependency.
 ## Deploying
 
 The site is published from the `main` branch with GitHub Actions. Every push rebuilds and
-deploys automatically to **https://kamdaa.github.io/web/**. The workflow lives in
+deploys automatically to **https://kamdaa.github.io/**. The workflow lives in
 `.github/workflows/deploy.yml`; the output in `dist/` is still fully static if you ever want
 to host it elsewhere.
