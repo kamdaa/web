@@ -1,80 +1,56 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ArtGrid from '../components/ArtGrid.astro';
-import ArtImage from '../components/ArtImage.astro';
+import Ornaments from '../components/Ornaments.astro';
 import { site } from '../config';
-import { getFeaturedArtwork, getRecentArtworks } from '../lib/art';
-import { formatDate } from '../lib/format';
+import { getRecentArtworks } from '../lib/art';
 import { url } from '../lib/url';
 
-const featured = getFeaturedArtwork();
 const recent = getRecentArtworks(6);
-
-const posts = (await getCollection('journal', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 2);
 ---
 
 <Base>
-  <section class="container-page pt-12 pb-4 md:pt-16 lg:pt-20">
-    <div class="grid gap-12 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-16">
-      <div>
-        <p class="eyebrow reveal text-sage-deep">Selected works · {site.location}</p>
+  <section class="relative overflow-hidden">
+    <Ornaments />
 
-        <h1 class="mt-5 font-serif text-[2.1rem] leading-[1.05] tracking-[-0.03em] reveal md:text-[3.2rem]" style="--reveal-delay: 70ms">
-          {site.name}
-        </h1>
+    <div class="container-page relative z-10 py-20 text-center md:py-28">
+      <h1
+        class="font-serif text-[clamp(2.7rem,6vw,4.4rem)] leading-[0.95] tracking-[-0.04em] reveal"
+      >
+        <span class="block">Kamda</span>
+        <span
+          class="block italic text-sage-deep"
+          style="font-variation-settings: 'SOFT' 70, 'WONK' 1;"
+        >
+          Kachroo
+        </span>
+      </h1>
 
-        <p class="mt-5 max-w-sm text-[1rem] leading-relaxed text-ink-soft reveal md:text-[1.08rem]" style="--reveal-delay: 120ms">
-          {site.tagline}
-        </p>
+      <p
+        class="mx-auto mt-6 max-w-sm text-[1rem] leading-relaxed text-ink-soft reveal md:text-[1.1rem]"
+        style="--reveal-delay: 90ms"
+      >
+        {site.tagline}
+      </p>
 
-        <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 reveal" style="--reveal-delay: 170ms">
-          <a class="arrow-link" href={url('/work')}>
-            <span>View the work</span>
-            <span class="arrow" aria-hidden="true">→</span>
-          </a>
-          <a class="link-underline text-sm text-ink-soft transition-colors hover:text-ink" href={url('/about')}>
-            About the artist
-          </a>
-        </div>
+      <div
+        class="mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 reveal"
+        style="--reveal-delay: 150ms"
+      >
+        <a class="arrow-link" href={url('/work')}>
+          <span>View the work</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="link-underline text-sm text-ink-soft transition-colors hover:text-ink" href={url('/about')}>
+          About the artist
+        </a>
       </div>
-
-      {
-        featured && (
-          <figure class="reveal" style="--reveal-delay: 160ms">
-            <a href={url(`/work/${featured.collection}`)} class="block" aria-label={`${featured.title} — ${featured.collectionName}`}>
-              <div class="artframe">
-                <ArtImage
-                  artwork={featured}
-                  priority
-                  sizes="(min-width: 1024px) 44vw, 94vw"
-                  widths={[600, 900, 1200, 1600]}
-                  class="h-auto w-full"
-                />
-              </div>
-            </a>
-            <figcaption class="mt-3 flex items-baseline justify-between gap-4 border-t border-line pt-2.5">
-              <span class="font-serif text-[1.05rem] leading-snug">
-                {featured.title}{featured.year ? `, ${featured.year}` : ''}
-              </span>
-              <span class="shrink-0 text-[0.63rem] uppercase tracking-[0.18em] text-ink-faint">
-                {featured.collectionName}
-              </span>
-            </figcaption>
-          </figure>
-        )
-      }
     </div>
   </section>
 
-  <section class="container-page mt-20 md:mt-28">
+  <section class="container-page mt-10 md:mt-14">
     <header class="reveal flex flex-wrap items-end justify-between gap-6 border-b border-line pb-5">
-      <div>
-        <p class="eyebrow">Selected</p>
-        <h2 class="mt-3 text-[2rem] leading-none tracking-[-0.03em] md:text-[2.7rem]">Recent work</h2>
-      </div>
+      <h2 class="text-[2rem] leading-none tracking-[-0.03em] md:text-[2.6rem]">Recent work</h2>
       <a class="arrow-link" href={url('/work')}>
         <span>All collections</span>
         <span class="arrow" aria-hidden="true">→</span>
@@ -85,55 +61,4 @@ const posts = (await getCollection('journal', ({ data }) => !data.draft))
       <ArtGrid artworks={recent} showCollection />
     </div>
   </section>
-
-  <section class="mt-16 border-y border-line bg-paper-deep/55 py-16 md:mt-24 md:py-24">
-    <div class="container-page">
-      <div class="max-w-4xl reveal">
-        <p class="eyebrow">From the statement</p>
-        <blockquote class="mt-7 font-serif text-[1.55rem] leading-[1.3] tracking-[-0.02em] text-ink md:text-[2.25rem]">
-          “{site.statement}”
-        </blockquote>
-        <a class="arrow-link mt-9" href={url('/about')}>
-          <span>Read more about the practice</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  {
-    posts.length > 0 && (
-      <section class="container-page mt-20 md:mt-28">
-        <header class="reveal flex flex-wrap items-end justify-between gap-6 border-b border-line pb-5">
-          <div>
-            <p class="eyebrow">Journal</p>
-            <h2 class="mt-3 text-[2rem] leading-none tracking-[-0.03em] md:text-[2.7rem]">Notes from the studio</h2>
-          </div>
-          <a class="arrow-link" href={url('/journal')}>
-            <span>All entries</span>
-            <span class="arrow" aria-hidden="true">→</span>
-          </a>
-        </header>
-
-        <div class="mt-2 grid md:grid-cols-2 md:divide-x md:divide-line">
-          {posts.map((post) => (
-            <a
-              href={url(`/journal/${post.id}`)}
-              class="group block border-b border-line py-8 transition-colors md:border-b-0 md:px-8 md:first:pl-0 md:last:pr-0"
-            >
-              <p class="eyebrow">{formatDate(post.data.date)}</p>
-              <h3 class="mt-4 font-serif text-[1.6rem] leading-[1.15] tracking-[-0.02em] transition-colors group-hover:text-sage-deep md:text-[1.85rem]">
-                {post.data.title}
-              </h3>
-              <p class="mt-3 max-w-md text-sm leading-relaxed text-ink-soft">{post.data.excerpt}</p>
-              <span class="arrow-link mt-6">
-                <span>Read entry</span>
-                <span class="arrow" aria-hidden="true">→</span>
-              </span>
-            </a>
-          ))}
-        </div>
-      </section>
-    )
-  }
 </Base>
